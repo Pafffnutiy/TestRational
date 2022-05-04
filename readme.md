@@ -38,8 +38,7 @@ java -cp junit-4.13.2.jar:hamcrest-core-1.3.jar:. org.junit.runner.JUnitCore Tes
 неверной реализации данного метода. В строке кода 
 ```Java
     return this.numerator * rational.getDenominator() < getNumerator() * this.denominator;
-```
-функция getNumerator() вызывается не для `rational`, а для неявного параметра `this`. Так как в ТЗ не 
+``` функция getNumerator() вызывается не для `rational`, а для неявного параметра `this`. Так как в ТЗ не 
 прописано отдельно, что сравнение должно происходить именно так, то предполагаем, что сравнение дробей 
 производится по правилам математики.
 3. Тест №11: в данном тесте проверяется раоботоспособность метода `lessOrEqual`. Тест не проходит из-за 
