@@ -110,25 +110,22 @@ public class Tests {
 
     @Test //№9
     public void testEquals() {
-        for (int i = 0; i < 10; ++i) {
-            int numer1 = getRandomNumber(MIN, MAX);
-            int numer2 = getRandomNumber(MIN, MAX);
-            int denom1 = getRandomNumberNoZero(MIN, MAX);
-            int denom2 = getRandomNumberNoZero(MIN, MAX);
+        Rational obj1 = new Rational(2313, -3213);
+        Rational obj2 = new Rational(-2313, 3213);
+        Rational obj3 = new Rational(506, 695);
+        Rational obj4 = new Rational(-2313, 940);
+        Rational obj5 = new Rational(452, 695);
 
-            Rational obj1 = new Rational(numer1, denom1);
-            Rational obj2 = new Rational(numer1, denom1);
-            Rational obj3 = new Rational(numer2, denom2);
+        String str1 = String.join("/", String.valueOf(2313), String.valueOf(-3213));
 
-            String str1 = String.join("/", String.valueOf(numer1), String.valueOf(denom1));
-
-            assertTrue("Func Equals works incorrect", obj1.equals(obj2));
-            assertTrue("Func Equals works incorrect", obj2.equals(obj1));
-            assertFalse("Func Equals works incorrect", obj1.equals(obj3));
-            assertFalse("Func Equals works incorrect", obj3.equals(obj1));
-            assertFalse("Func Equals works incorrect", obj1.equals(numer1));
-            assertFalse("Func Equals works incorrect", obj1.equals(str1));
-        }
+        assertTrue("Func Equals works incorrect", obj1.equals(obj2));
+        assertTrue("Func Equals works incorrect", obj2.equals(obj1));
+        assertFalse("Func Equals works incorrect", obj1.equals(obj3));
+        assertFalse("Func Equals works incorrect", obj3.equals(obj1));
+        assertFalse("Func Equals works incorrect", obj4.equals(obj2));
+        assertFalse("Func Equals works incorrect", obj3.equals(obj5));
+        assertFalse("Func Equals works incorrect", obj1.equals(2313));
+        assertFalse("Func Equals works incorrect", obj1.equals(str1));
     }
 
     @Test //№10
