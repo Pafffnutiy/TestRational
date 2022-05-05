@@ -4,8 +4,8 @@ import static java.lang.Math.abs;
 import static org.junit.Assert.*;
 
 public class Tests {
-    static final int MIN = -10000000;
-    static final int MAX = 10000000;
+    static final int MIN = -10000000, MAX = 10000000;  //For selection a random number
+
     @Test //№1
     public void testStandardConstructor() {
         Rational standard = new Rational();
@@ -15,45 +15,43 @@ public class Tests {
 
     @Test //№2
     public void testParamConstructorWithPosDenominator() {
-        for (int i = 0; i < 5; ++i) {
-            int number1 = getRandomNumber(MIN, MAX);
-            int number2 = getRandomNumber(1, MAX);
-            int gcd = getGCD(number1, number2);
-            Rational obj = new Rational(number1, number2);
+        for (int i = 0; i < 10; ++i) {
+            int numer = getRandomNumber(MIN, MAX);
+            int denom = getRandomNumber(1, MAX);
+            int gcd = getGCD(numer, denom);
+            Rational obj = new Rational(numer, denom);
 
-            assertEquals("Constructor with params returns wrong numerator", number1 / gcd, obj.getNumerator());
-            assertEquals("Constructor with params returns wrong denominator", number2 / gcd, obj.getDenominator());
+            assertEquals("Constructor with params returns wrong numerator", numer / gcd, obj.getNumerator());
+            assertEquals("Constructor with params returns wrong denominator", denom / gcd, obj.getDenominator());
         }
     }
 
     @Test //№3
     public void testParamConstructorWithNegDenominator() {
-        for (int i = 0; i < 5; ++i) {
-            int number1 = getRandomNumber(MIN, MAX);
-            int number2 = getRandomNumber(MIN, -1);
-            int gcd = getGCD(number1, number2);
-            Rational obj = new Rational(number1, number2);
+        for (int i = 0; i < 10; ++i) {
+            int numer = getRandomNumber(MIN, MAX);
+            int denom = getRandomNumber(MIN, -1);
+            int gcd = getGCD(numer, denom);
+            Rational obj = new Rational(numer, denom);
 
-            assertEquals("Constructor with params returns wrong numerator", -number1 / gcd, obj.getNumerator());
-            assertEquals("Constructor with params returns wrong denominator", Math.abs(number2) / gcd, obj.getDenominator());
+            assertEquals("Constructor with params returns wrong numerator", -numer / gcd, obj.getNumerator());
+            assertEquals("Constructor with params returns wrong denominator", Math.abs(denom) / gcd, obj.getDenominator());
         }
     }
 
     @Test(expected = ArithmeticException.class) //№4
     public void testParamConstructorWithZeroDenominator() {
-        int number2 = 0;
-        int number1 = getRandomNumber(MIN, MAX);
-        int gcd = getGCD(number1, number2);
-        Rational obj = new Rational(number1, number2);
+        int denom = 0;
+        int numer = getRandomNumber(MIN, MAX);
+        Rational obj = new Rational(numer, denom);
     }
 
     @Test //№5
     public void testNumeratorSetter() {
-        int expectedNumerator;
-        for (int i = 0; i < 5; ++i) {
-            int number1 = getRandomNumber(MIN, MAX);
-            int number2 = getRandomNumberNoZero(MIN, MAX);
-            Rational obj = new Rational(number1, number2);
+        for (int i = 0; i < 10; ++i) {
+            int numer = getRandomNumber(MIN, MAX);
+            int denom = getRandomNumberNoZero(MIN, MAX);
+            Rational obj = new Rational(numer, denom);
 
             int oldDenom = obj.getDenominator();
 
@@ -68,15 +66,14 @@ public class Tests {
 
     @Test //№6
     public void testDenominatorSetter() {
-        for (int i = 0; i < 5; ++i) {
-            int number1 = getRandomNumber(MIN, MAX);
-            int number2 = getRandomNumberNoZero(MIN, MAX);
-            Rational obj = new Rational(number1, number2);
+        for (int i = 0; i < 10; ++i) {
+            int numer = getRandomNumber(MIN, MAX);
+            int denom = getRandomNumberNoZero(MIN, MAX);
+            Rational obj = new Rational(numer, denom);
 
             int oldNumerator = obj.getNumerator();
 
-            int newDenominator = getRandomNumber(MIN, MAX);
-            if (newDenominator == 0) newDenominator += getRandomNumber(1, MAX);
+            int newDenominator = getRandomNumberNoZero(MIN, MAX);
             obj.setDenominator(newDenominator);
             int gcd = getGCD(oldNumerator, newDenominator);
 
@@ -88,11 +85,10 @@ public class Tests {
     }
 
     @Test(expected = ArithmeticException.class) //№7
-    public void testDenominatorSetterZero() {
-
-        int number1 = getRandomNumber(MIN, MAX);
-        int number2 = getRandomNumberNoZero(MIN, MAX);
-        Rational obj = new Rational(number1, number2);
+    public void testDenominatorSetterZero(){
+        int numer = getRandomNumber(MIN, MAX);
+        int denom = getRandomNumberNoZero(MIN, MAX);
+        Rational obj = new Rational(numer, denom);
 
         obj.setDenominator(0);
     }
@@ -114,43 +110,43 @@ public class Tests {
 
     @Test //№9
     public void testEquals() {
-        for (int i = 0; i < 5; ++i) {
-            int number1 = getRandomNumber(MIN, MAX);
-            int number2 = getRandomNumberNoZero(MIN, MAX);
-            int number3 = getRandomNumberNoZero(MIN, MAX);
+        for (int i = 0; i < 10; ++i) {
+            int numer1 = getRandomNumber(MIN, MAX);
+            int numer2 = getRandomNumber(MIN, MAX);
+            int denom1 = getRandomNumberNoZero(MIN, MAX);
+            int denom2 = getRandomNumberNoZero(MIN, MAX);
 
-            Rational obj1 = new Rational(number1, number2);
-            Rational obj2 = new Rational(number1, number2);
-            Rational obj3 = new Rational(getRandomNumber(MIN, MAX), number3);
+            Rational obj1 = new Rational(numer1, denom1);
+            Rational obj2 = new Rational(numer1, denom1);
+            Rational obj3 = new Rational(numer2, denom2);
 
-            String str1 = String.join("/", String.valueOf(number1), String.valueOf(number2));
+            String str1 = String.join("/", String.valueOf(numer1), String.valueOf(denom1));
 
             assertTrue("Func Equals works incorrect", obj1.equals(obj2));
             assertTrue("Func Equals works incorrect", obj2.equals(obj1));
             assertFalse("Func Equals works incorrect", obj1.equals(obj3));
             assertFalse("Func Equals works incorrect", obj3.equals(obj1));
-            assertFalse("Func Equals works incorrect", obj1.equals(number1));
+            assertFalse("Func Equals works incorrect", obj1.equals(numer1));
             assertFalse("Func Equals works incorrect", obj1.equals(str1));
         }
     }
 
     @Test //№10
     public void testLess() {
-
         Rational obj1 = new Rational(123, 256);
         Rational obj2 = new Rational(123, 512);
 
-        assertTrue("Func less works incorrect", obj2.less(obj1));
+        assertTrue("Func less works incorrect for equal numerators and different denominators", obj2.less(obj1));
 
         obj1 = new Rational(123, -256);
         obj2 = new Rational(123, 512);
 
-        assertTrue("Func less works incorrect", obj1.less(obj2));
+        assertTrue("Func less works incorrect for different numerators and denominators ", obj1.less(obj2));
 
         obj1 = new Rational(-123, -256);
         obj2 = new Rational(-321, -256);
 
-        assertTrue("Func less works incorrect", obj1.less(obj2));
+        assertTrue("Func less works incorrect for different numerators and equal denominators", obj1.less(obj2));
 
         obj1 = new Rational(-123, 824);
         obj2 = new Rational(-321, 946);
@@ -160,26 +156,25 @@ public class Tests {
         obj1 = new Rational(-123, 256);
         obj2 = new Rational(-123, 256);
 
-        assertFalse("Func less works incorrect", obj1.less(obj2));
+        assertFalse("Func less works incorrect for equal rationals", obj1.less(obj2));
     }
 
     @Test //№11
     public void testLessOrEqual() {
-
         Rational obj1 = new Rational(123, 256);
         Rational obj2 = new Rational(123, 512);
 
-        assertTrue("Func lessOrEqual works incorrect", obj2.lessOrEqual(obj1));
+        assertTrue("Func lessOrEqual works incorrect for equal numerators and different denominators", obj2.lessOrEqual(obj1));
 
         obj1 = new Rational(123, -256);
         obj2 = new Rational(123, 512);
 
-        assertFalse("Func lessOrEqual works incorrect because of incorrect work of Func less", obj2.lessOrEqual(obj1));
+        assertFalse("Func lessOrEqual works incorrect for different numerators and denoiminators (because of incorrect work of Func less)", obj2.lessOrEqual(obj1));
 
         obj1 = new Rational(-123, 256);
         obj2 = new Rational(-123, 256);
 
-        assertTrue("Func lessOrEqual works incorrect", obj1.lessOrEqual(obj2));
+        assertTrue("Func lessOrEqual works incorrect for equal rationals", obj1.lessOrEqual(obj2));
     }
 
     @Test //№12
@@ -224,12 +219,12 @@ public class Tests {
     @Test(expected = ArithmeticException.class) //№15
     public void testDivideByZeroRational() {
         Rational obj1 = new Rational();
-        Rational obj2 = new Rational(getRandomNumber(MIN,MAX), getRandomNumberNoZero(MIN,MAX));
+        Rational obj2 = new Rational(getRandomNumber(MIN, MAX), getRandomNumberNoZero(MIN, MAX));
 
         obj2.divide(obj1);
     }
 
-    @Test
+    @Test //#16
     public void testDivide() {
         Rational obj1 = new Rational(-654, 900);
         Rational obj2 = new Rational(-456, 34);
