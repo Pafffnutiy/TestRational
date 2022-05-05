@@ -29,6 +29,9 @@ javac -d . -cp junit-4.13.2.jar:. src/test/java/Tests.java
 java -cp junit-4.13.2.jar:hamcrest-core-1.3.jar:. org.junit.runner.JUnitCore Tests
 ```
 
+Отчет о покрытии:
+![Coverage report](CoverageReport.png)
+
 ## Примечание
 Тесты № 7, 10, 11 не проходятся (номера тестов указаны ввиде комментариев после `@Test` каждого теста). 
 С чем это связано:
